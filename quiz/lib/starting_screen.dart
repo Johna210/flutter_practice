@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class StartingScreen extends StatelessWidget {
   const StartingScreen(this.startQuiz, {super.key});
@@ -16,10 +17,10 @@ class StartingScreen extends StatelessWidget {
             color: Color.fromARGB(119, 255, 255, 255),
           ),
           const SizedBox(height: 30),
-          const Text(
+          Text(
             'Learn Flutter The Fun Way',
-            style: TextStyle(
-              color: Color.fromARGB(255, 227, 203, 245),
+            style: GoogleFonts.spaceGrotesk(
+              color: const Color.fromARGB(255, 227, 203, 245),
               fontSize: 24,
             ),
           ),
@@ -35,3 +36,5 @@ class StartingScreen extends StatelessWidget {
     );
   }
 }
+
+// 

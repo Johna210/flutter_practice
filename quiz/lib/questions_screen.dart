@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/answer_button.dart';
 import 'package:quiz/data/questions.dart';
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key});
+  const QuestionScreen({super.key, required this.onSelectAnswer});
+
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionScreen> createState() {
@@ -13,38 +17,46 @@ class QuestionScreen extends StatefulWidget {
 
 class _QuestionsScreenState extends State<QuestionScreen> {
   int current = 0;
-  final noOfQuestions = questions.length;
 
-  void nextQuestion() {
+  void nextQuestion(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
+
     setState(() {
-      if (current < noOfQuestions) {
-        current++;
-      }
+      current++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (current == noOfQuestions) {
-      current--;
-    }
     final currentQuestion = questions[current];
+
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            currentQuestion.question,
-            style: const TextStyle(color: Colors.white, fontSize: 17),
-          ),
-          const SizedBox(height: 30),
-          ...currentQuestion.answers.map(
-            (item) {
-              return AnswerButton(item, nextQuestion);
-            },
-          )
-        ],
+      child: Container(
+        margin: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              currentQuestion.question,
+              style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            ...currentQuestion.getSheffledAnswers().map(
+              (answer) {
+                return AnswerButton(answer, () {
+                  nextQuestion(answer);
+                });
+              },
+            )
+          ],
+        ),
       ),
     );
   }
