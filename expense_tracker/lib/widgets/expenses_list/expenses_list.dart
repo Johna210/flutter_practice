@@ -19,6 +19,7 @@ class ExpensesList extends StatelessWidget {
         key: ValueKey(expenses[index]),
         background: Container(
           color: Theme.of(context).colorScheme.error,
+          height: Theme.of(context).cardTheme.elevation,
           margin: EdgeInsets.symmetric(
               horizontal: Theme.of(context).cardTheme.margin!.horizontal),
         ),
