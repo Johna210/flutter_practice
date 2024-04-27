@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:trivia/core/error/exceptions.dart';
 import 'package:trivia/core/error/failures.dart';
-import 'package:trivia/core/platform/network_info.dart';
+import 'package:trivia/core/network/network_info.dart';
 import 'package:trivia/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:trivia/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:trivia/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
 
-typedef Future<NumberTrivia> _ConcreteOrRandomChooser();
+typedef _ConcreteOrRandomChooser = Future<NumberTrivia> Function();
 
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   final NumberTriviaLocalDataSource localDataSource;
