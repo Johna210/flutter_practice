@@ -39,6 +39,7 @@ dependencies:
     dartz: ^0.10.1
     mocktail: ^1.0.3
     internet_connection_checker: ^1.0.0+1
+    shared_preferences: ^2.2.3
     # Local cache
 
 dev_dependencies:
