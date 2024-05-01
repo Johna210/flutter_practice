@@ -37,6 +37,7 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
       try {
         // store the result inside a variable and cache it locally
         final remoteTrivia = await getConcreteOrRandom();
+        print(remoteTrivia);
         await localDataSource.cacheNumberTrivia(remoteTrivia);
         return Right(remoteTrivia);
       } on ServerException {
