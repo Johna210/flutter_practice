@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:trivia/core/error/failures.dart';
+import 'package:trivia/core/usecases/usecase.dart';
 
 import 'package:trivia/core/util/input_converter.dart';
 import 'package:trivia/features/number_trivia/domain/entities/number_trivia.dart';
@@ -27,13 +30,53 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     on<GetTriviaForConcreteNumber>((event, emit) async {
       final inputEither = input.stringToUnsinedInt(event.numberString);
 
-      inputEither.fold((failure) {
-        emit(
-          const NumberTriviaErrorState(message: INVALID_INPUT_FAILURE_MESSAGE),
-        );
-      }, (r) => null);
+      inputEither.fold(
+        (failure) {
+          emit(
+            const NumberTriviaErrorState(
+                message: INVALID_INPUT_FAILURE_MESSAGE),
+          );
+        },
+        (integer) async {
+          emit(NumberTriviaLoadingState());
+          final failureOrTrivia = await concrete(Params(number: integer));
+
+          _eitherLoadedOrErrorState(failureOrTrivia, emit);
+        },
+      );
     });
+    on<GetTriviaForRandomNumber>(
+      ((event, emit) async {
+        emit(NumberTriviaLoadingState());
+        final failureOrTrivia = await random(NoParams());
+        _eitherLoadedOrErrorState(failureOrTrivia, emit);
+      }),
+    );
+  }
+
+  void _eitherLoadedOrErrorState(Either<Failure, NumberTrivia> failureOrTrivia,
+      Emitter<NumberTriviaState> emit) {
+    failureOrTrivia.fold(
+      (failure) {
+        emit(
+          NumberTriviaErrorState(message: _mapFailureToMessage(failure)),
+        );
+      },
+      (trivia) {
+        emit(NumberTriviaLoadedState(trivia: trivia));
+      },
+    );
   }
 
   NumberTriviaState get initialState => NumberTriviaInitial();
+
+  String _mapFailureToMessage(Failure failure) {
+    if (failure is ServerFailure) {
+      return SERVER_FAILURE_MESSAGE;
+    } else if (failure is CacheFailure) {
+      return CACHE_FAILURE_MESSAGE;
+    } else {
+      return 'Unexpected error';
+    }
+  }
 }
