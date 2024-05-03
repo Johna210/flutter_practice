@@ -1,9 +1,7 @@
-import 'package:ecommerce/presentation/widgets/button_container.dart';
-import 'package:ecommerce/presentation/widgets/content_card.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ecommerce/presentation/widgets/user_profile.dart';
+
+import 'package:ecommerce/presentation/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,7 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -35,12 +33,19 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const ContentCard(),
-            const ContentCard(),
+            Expanded(
+              child: ListView(
+                children: const [
+                  ContentCard(),
+                  ContentCard(),
+                  ContentCard(),
+                ],
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
+      floatingActionButton: const AddButton(),
     );
   }
 }
