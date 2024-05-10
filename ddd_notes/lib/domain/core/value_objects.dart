@@ -1,9 +1,20 @@
 import 'package:dartz/dartz.dart';
+import 'package:ddd_notes/domain/core/errors.dart';
 import 'package:ddd_notes/domain/core/failures.dart';
 
 abstract class ValueObject<T> {
   const ValueObject();
   Either<ValueFailure<T>, T> get value;
+
+  /// Throws [UnexpectedValueError] containing the [ValueFailure]
+  T getOrCrash() {
+    return value.fold(
+      (failure) => throw UnexpectedValueError(failure),
+      id, // id(indentity) in functional programming (r) => r
+    );
+  }
+
+  bool isValid() => value.isRight();
 
   @override
   bool operator ==(Object other) {
