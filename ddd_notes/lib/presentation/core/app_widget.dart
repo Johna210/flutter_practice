@@ -1,19 +1,32 @@
-import 'package:ddd_notes/presentation/sign_in/sign_in_page.dart';
+import 'package:ddd_notes/application/auth/auth_bloc.dart';
+import 'package:ddd_notes/injection.dart';
+import 'package:ddd_notes/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Notes',
-      home: const SignInPage(),
-      theme: ThemeData.light().copyWith(
-        primaryColor: Colors.green[800],
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+    final router = AppRouter();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+        ),
+      ],
+      child: MaterialApp.router(
+        title: 'Notes',
+        routerDelegate: router.delegate(),
+        routeInformationParser: router.defaultRouteParser(),
+        theme: ThemeData.light().copyWith(
+          primaryColor: Colors.green[800],
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         ),
       ),
