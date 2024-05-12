@@ -36,6 +36,7 @@ class SingInForm extends StatelessWidget {
               ? AutovalidateMode.always
               : AutovalidateMode.disabled,
           child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
               const Text(
                 '📝',
@@ -45,7 +46,11 @@ class SingInForm extends StatelessWidget {
               const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.email),
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(color: Colors.grey),
                   labelText: 'Email',
                 ),
                 autocorrect: false,
@@ -72,7 +77,11 @@ class SingInForm extends StatelessWidget {
               const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(color: Colors.grey),
                   labelText: 'Password',
                 ),
                 autocorrect: false,
@@ -111,33 +120,44 @@ class SingInForm extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                  onPressed: () {
-                    context.read<SignInFormBloc>().add(
-                          const SignInFormEvent.signInWithGooglePressed(),
-                        );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+              const Text(
+                'or',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 17),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton(
+                onPressed: () {
+                  context.read<SignInFormBloc>().add(
+                        const SignInFormEvent.signInWithGooglePressed(),
+                      );
+                },
+                style: OutlinedButton.styleFrom(
+                  maximumSize: const Size(100, 70),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GoogleLogo(
-                        size: 20,
+                  side: const BorderSide(color: Colors.grey),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GoogleLogo(
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'SIGN IN WITH GOOGLE',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'SIGN IN WITH GOOGLE',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ))
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         );
