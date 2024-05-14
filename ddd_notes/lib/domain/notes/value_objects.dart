@@ -16,27 +16,27 @@ class NoteBody extends ValueObject<String> {
   factory NoteBody(String input) {
     return NoteBody._(
       validateMaxStringLength(input, maxLength).flatMap(validateStringNotEmpty),
-      // flat map takes the value from the first validation function and
+      // flatMap takes the value from the first validation function and
       // Inserts it to the second validation function
     );
   }
   const NoteBody._(this.value);
 }
 
-class Todo extends ValueObject<String> {
+class TodoName extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
 
   static const maxLength = 30;
 
-  factory Todo(String input) {
-    return Todo._(
+  factory TodoName(String input) {
+    return TodoName._(
       validateMaxStringLength(input, maxLength)
           .flatMap(validateStringNotEmpty)
           .flatMap(validateSingleLine),
     );
   }
-  const Todo._(this.value);
+  const TodoName._(this.value);
 }
 
 class NoteColor extends ValueObject<Color> {
