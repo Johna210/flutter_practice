@@ -17,7 +17,8 @@ part 'note_watcher_bloc.freezed.dart';
 class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
   final INoteRepository _noteRepository;
 
-  StreamSubscription<Either<NoteFailure, KtList<Note>>> _noteStreamSubscription;
+  StreamSubscription<Either<NoteFailure, KtList<Note>>>?
+      _noteStreamSubscription;
 
   NoteWatcherBloc(this._noteRepository, this._noteStreamSubscription)
       : super(const _Initial()) {
@@ -33,7 +34,7 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
     emit(const NoteWatcherState.loading());
 
     // if watch uncompleted was already running
-    await _noteStreamSubscription.cancel();
+    await _noteStreamSubscription?.cancel();
     _noteStreamSubscription =
         _noteRepository.watchAll().listen((failureOrNotes) {
       return add(NoteWatcherEvent.notesRecieved(failureOrNotes));
@@ -45,7 +46,7 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
     emit(const NoteWatcherState.loading());
 
     // if watch all was already running
-    await _noteStreamSubscription.cancel();
+    await _noteStreamSubscription?.cancel();
     _noteStreamSubscription =
         _noteRepository.watchUncompleted().listen((failureOrNotes) {
       return add(NoteWatcherEvent.notesRecieved(failureOrNotes));
@@ -63,7 +64,7 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
 
   @override
   Future<void> close() async {
-    await _noteStreamSubscription.cancel();
+    await _noteStreamSubscription?.cancel();
     return super.close();
   }
 }

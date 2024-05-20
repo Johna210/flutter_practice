@@ -1,4 +1,7 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:ddd_notes/application/auth/auth_bloc.dart';
 import 'package:ddd_notes/application/auth/sign_in_form/sign_in_form_bloc.dart';
+import 'package:ddd_notes/presentation/routes/router.gr.dart';
 import 'package:ddd_notes/presentation/sign_in/widgets/google_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +28,10 @@ class SingInForm extends StatelessWidget {
               );
             },
             (r) {
-              // TODO Navigation
+              context.router.replace(const NotesOverviewRoute());
+              context
+                  .read<AuthBloc>()
+                  .add(const AuthEvent.authCheckRequested());
             },
           ),
         );
