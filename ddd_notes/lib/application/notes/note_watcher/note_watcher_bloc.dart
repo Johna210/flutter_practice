@@ -22,9 +22,11 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
 
   NoteWatcherBloc(this._noteRepository) : super(const _Initial()) {
     on<NoteWatcherEvent>((event, emit) {
-      on<_WatchAllStarted>(_onWatchAllStarted);
-      on<_WatchUncompleteStarted>(_onWatchUncompleteStarted);
-      on<_NotesRecieved>(_onNotesRecieved);
+      event.map(
+        watchAllStarted: (e) => _onWatchAllStarted(e, emit),
+        watchUncompleteStarted: (e) => _onWatchUncompleteStarted(e, emit),
+        notesRecieved: (e) => _onNotesRecieved(e, emit),
+      );
     });
   }
 

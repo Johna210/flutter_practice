@@ -9,6 +9,7 @@ class NotesOverviewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NoteWatcherBloc, NoteWatcherState>(
         builder: (context, state) {
+      print('current State: $state');
       return state.map(
         initial: (_) => Container(),
         loading: (_) => const Center(child: CircularProgressIndicator()),
