@@ -23,6 +23,9 @@ class AppWidget extends StatelessWidget {
         routeInformationParser: router.defaultRouteParser(),
         theme: ThemeData.light().copyWith(
             primaryColor: Colors.green[800],
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              secondary: Colors.blueAccent,
+            ),
             inputDecorationTheme: InputDecorationTheme(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
