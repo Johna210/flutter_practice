@@ -17,13 +17,16 @@ class SingInForm extends StatelessWidget {
           () {},
           (either) => either.fold(
             (failure) {
-              return SnackBar(
-                content: failure.map(
-                  cancelledByUser: (_) => const Text('Operation Cancelled'),
-                  serverError: (_) => const Text('Server Error'),
-                  emailAlreadyInUse: (_) => const Text('Email already in use'),
-                  invalidEmailOrPassword: (_) =>
-                      const Text('Invalid Email or Password'),
+              return ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: failure.map(
+                    cancelledByUser: (_) => const Text('Operation Cancelled'),
+                    serverError: (_) => const Text('Server Error'),
+                    emailAlreadyInUse: (_) =>
+                        const Text('Email already in use'),
+                    invalidEmailOrPassword: (_) =>
+                        const Text('Invalid Email or Password'),
+                  ),
                 ),
               );
             },

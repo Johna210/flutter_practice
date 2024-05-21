@@ -20,8 +20,7 @@ class NoteWatcherBloc extends Bloc<NoteWatcherEvent, NoteWatcherState> {
   StreamSubscription<Either<NoteFailure, KtList<Note>>>?
       _noteStreamSubscription;
 
-  NoteWatcherBloc(this._noteRepository, this._noteStreamSubscription)
-      : super(const _Initial()) {
+  NoteWatcherBloc(this._noteRepository) : super(const _Initial()) {
     on<NoteWatcherEvent>((event, emit) {
       on<_WatchAllStarted>(_onWatchAllStarted);
       on<_WatchUncompleteStarted>(_onWatchUncompleteStarted);

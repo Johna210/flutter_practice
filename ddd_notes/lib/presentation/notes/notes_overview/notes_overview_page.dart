@@ -3,6 +3,7 @@ import 'package:ddd_notes/application/auth/auth_bloc.dart';
 import 'package:ddd_notes/application/notes/note_actor/note_actor_bloc.dart';
 import 'package:ddd_notes/application/notes/note_watcher/note_watcher_bloc.dart';
 import 'package:ddd_notes/injection.dart';
+import 'package:ddd_notes/presentation/notes/notes_overview/widgets/notes_overview_body.dart';
 import 'package:ddd_notes/presentation/routes/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,12 +29,32 @@ class NotesOverviewPage extends StatelessWidget {
                 unauthenticated: (_) =>
                     context.router.replace(const SignInRoute()),
                 orElse: () {});
+          }),
+          BlocListener<NoteActorBloc, NoteActorState>(
+              listener: (context, state) {
+            state.maybeMap(
+                deleteFailure: (state) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 5),
+                      content: state.noteFailure.map(
+                        unexpected: (_) => const Text(
+                            'Unexpected Error happened while deleteing.'),
+                        permissionDenied: (_) =>
+                            const Text('Permission denied.'),
+                        unableToUpdate: (_) => const Text('Impossible Error'),
+                        unableToDelete: (_) => const Text('Unable to delete'),
+                      ),
+                    ),
+                  );
+                },
+                orElse: () {});
           })
         ],
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Notes'),
-            backgroundColor: Colors.green[600],
+            backgroundColor: Colors.green[800],
             foregroundColor: Colors.white,
             centerTitle: true,
             leading: IconButton(
@@ -49,6 +70,7 @@ class NotesOverviewPage extends StatelessWidget {
               )
             ],
           ),
+          body: const NotesOverviewBody(),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               // TODO Navigate to Note Form Page
