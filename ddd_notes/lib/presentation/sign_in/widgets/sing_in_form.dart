@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:ddd_notes/application/auth/auth_bloc.dart';
 import 'package:ddd_notes/application/auth/sign_in_form/sign_in_form_bloc.dart';
 import 'package:ddd_notes/presentation/routes/router.gr.dart';
-import 'package:ddd_notes/presentation/sign_in/widgets/google_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SingInForm extends StatelessWidget {
   const SingInForm({super.key});
@@ -148,16 +148,14 @@ class SingInForm extends StatelessWidget {
                   ),
                   side: const BorderSide(color: Colors.grey),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GoogleLogo(
-                      size: 20,
-                    ),
-                    SizedBox(
+                    SvgPicture.asset('assets/images/google.svg'),
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text(
+                    const Text(
                       'SIGN IN WITH GOOGLE',
                       style: TextStyle(
                         color: Colors.black,
